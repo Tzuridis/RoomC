@@ -10,12 +10,13 @@
 	background: #092756;
 } 
 input { 
-	width: 70%; 
-	margin-left: 1.8em;
-	margin-top: 53.5em; 
+	width: 11%; 
+
+	margin-top: 54.5em; 
 	background: white;
 	border: none;
 	outline: none;
+	position: absolute;
 	padding: 10px;
 	font-size: 13px;
 	color: black;
@@ -38,6 +39,7 @@ margin: 0 auto;
 .chat {
 float: right;
 color: black;
+margin-right: 2em;
 /*display: none;*/
 }
 
@@ -46,14 +48,24 @@ color: black;
     position:relative;
     display: inline-block;
     margin:0 25px;
-    padding:66px 42px;
+    padding:66px 90px;
     height:40px;
 	color: black;
 	border-radius: 25px;
 }
 
-#messages {
-	background: lightgray;
+#messages{
+    width: 10%;
+	float: right;
+    max-height: 100%;
+    padding:20px;
+    border: 1px solid black;
+    border-radius: 3px;
+    overflow-y: scroll;
+	 overflow-x: auto;
+    position:absolute;
+    background:#fff;
+	height:660px;
 }
 
 
@@ -66,13 +78,13 @@ color: black;
 <script src="/socket.io/socket.io.js"></script>
 
 <div class="chat">
-	<div class="title">RoomC Chat</div>
+	<div class="title"></div>
+			  <div id="messages">Welcome to RoomC! Powered by lytespark.</div>
 	<div>	<input type="text" placeholder="Chat" id='chat'> </div>
-		  <div id="messages"></div>
 </div>
 
  <!--Step 1. Defining a container for video chat -->
-<div id='ls-container' style='width:87vw;height:100vh;'>
+<div id='ls-container' style='width:85vw;height:100vh;'>
 <!-- Step 2. Including LyteSpark library -->
 <script src='https://s3.amazonaws.com/s3.lytespark.com/api.soft.js'></script>
 <!-- Step 3. Launching video chat -->
