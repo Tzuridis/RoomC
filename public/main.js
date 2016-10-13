@@ -3,9 +3,11 @@ $(document).ready(function () {
     var input = $('input');
     var messages = $('#messages');
     var username = prompt('Please enter a username');
+    var uploader = new SocketIOFileUpload(socket);
+    uploader.listenOnInput(document.getElementById("siofu_input"));
 
     var addMessage = function (message) {
-        var d = new Date(new Date().getTime()).toLocaleTimeString(); 
+        var d = new Date(new Date().getTime()).toLocaleTimeString();
         if (typeof message === 'object') {
             $('#messages').append('<div>' + "(" + d + ") " + message.username + ":" + " " + message.message + " " + '</div>');
         } else {
@@ -13,7 +15,6 @@ $(document).ready(function () {
         }
 
     };
-
 
     //Enter & show message
 
