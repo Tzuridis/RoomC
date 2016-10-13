@@ -3,6 +3,7 @@ $(document).ready(function () {
     var input = $('input');
     var messages = $('#messages');
     var username = prompt('Please enter a username');
+        
 
     var addMessage = function (message) {
         var d = new Date(new Date().getTime()).toLocaleTimeString();
@@ -31,25 +32,35 @@ $(document).ready(function () {
 
     socket.on('message', addMessage);
 
-     var siofu = new SocketIOFileUpload(socket);
-    var uploader = new SocketIOFileUpload(socket);
-    uploader.listenOnInput(document.getElementById("siofu_input"));
 
-    // Configure the three ways that SocketIOFileUpload can read files:
-    document.getElementById("upload_btn").addEventListener("click", siofu.prompt, false);
-    siofu.listenOnInput(document.getElementById("upload_input"));
-    siofu.listenOnDrop(document.getElementById("file_drop"));
+$('.upload').on('change', function(e){
+    //Get the first (and only one) file element
+    //that is included in the original event
+    var file = e.originalEvent.target.files[0],
+        reader = new FileReader();
+    //When the file has been read...
+    reader.onload = function(evt){
+        //Because of how the file was read,
+        //evt.target.result contains the image in base64 format
+        //Nothing special, just creates an img element
+        //and appends it to the DOM so my UI shows
+        //that I posted an image.
+        //send the image via Socket.io
+        socket.emit('user image', evt.target.result);
+    };
+    //And now, read the image and base64
+    reader.readAsDataURL(file);  
+});
 
-    // Do something on upload progress:
-    siofu.addEventListener("progress", function(event){
-        var percent = event.bytesLoaded / event.file.size * 100;
-        console.log("File is", percent.toFixed(2), "percent loaded");
-    });
 
-    // Do something when a file is uploaded:
-    siofu.addEventListener("complete", function(event){
-        console.log(event.success);
-        console.log(event.file);
-    });
+socket.on('user image', image);
 
-}, false);
+function image (from, base64Image) {
+    $('#messages').append($('<p>').append($('<b>').text(from),
+        '<img src="' + base64Image + '"/>'));
+}
+
+
+//end
+
+});

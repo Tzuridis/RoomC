@@ -1,7 +1,6 @@
 var express = require('express');
-var SocketIOFileUpload = require('socketio-file-upload');
 
-var app = express().use(SocketIOFileUpload.router);
+var app = express();
 
 var socket_io = require('socket.io');
 var http = require('http');
@@ -20,34 +19,25 @@ var socket = io.of('/');
 io.on('connection', function (socket) {
     usercount++;
     console.log('Client connected - Users connected', usercount);
-     
-    var uploader = new SocketIOFileUpload();
-    uploader.dir = "/srv/uploads";
-    uploader.listen(socket);
 
-    // Do something when a file is saved:
-    uploader.on("saved", function(event){
-        console.log(event.file);
+    socket.on('message', function (message) {
+        console.log('Received message:', message);
+        //
+        socket.broadcast.emit('message', message);
+        //
     });
 
-    // Error handler:
-    uploader.on("error", function(event){
-        console.log("Error from uploader", event);
+    socket.on('user image', function (msg) {
+        //Received an image: broadcast to all
+        io.emit('user image', socket.nickname, msg);
     });
 
 
-socket.on('message', function (message) {
-    console.log('Received message:', message);
-    //
-    socket.broadcast.emit('message', message);
-    //
-});
-
-socket.on('disconnect', function (message) {
-    usercount--;
-    console.log('Client disconnected - Users connected', usercount);
-    io.emit('users_count', 'Users Connected:' + usercount);
-});
+    socket.on('disconnect', function (message) {
+        usercount--;
+        console.log('Client disconnected - Users connected', usercount);
+        io.emit('users_count', 'Users Connected:' + usercount);
+    });
 
 });
 
