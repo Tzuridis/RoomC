@@ -2,14 +2,7 @@ $(document).ready(function () {
     var socket = io();
     var input = $('input');
     var messages = $('#messages');
-    var username;
-
-    if (localStorage.getItem(username) !== undefined) {
-           username = prompt('Please choose a username.');
-            localStorage.setItem('username', username);
-        }
-
-    console.log('outside', username);
+    var username = prompt('Please enter a username');
 
     var addMessage = function (message) {
         if (typeof message === 'object') {
@@ -19,6 +12,8 @@ $(document).ready(function () {
         }
 
     };
+
+
 
     //Enter & show message
 
