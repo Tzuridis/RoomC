@@ -6,13 +6,12 @@ $(document).ready(function () {
 
     var addMessage = function (message) {
         if (typeof message === 'object') {
-            $('#messages').append('<div>' + "(" + new Date().toLocaleString() + ") " + username.username + ":" + " " + message.message + " " + '</div>');
+            $('#messages').append('<div>' + "(" + new Date().toLocaleString() + ") " + username + ":" + " " + message.message + " " + '</div>');
         } else {
             $('#messages').append('<div>' + "(" + new Date().toLocaleString() + ") " + username + ":" + " " + message + " " + '</div>');
         }
 
     };
-
 
 
     //Enter & show message
