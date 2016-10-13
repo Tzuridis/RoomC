@@ -1,7 +1,7 @@
 var express = require('express');
-var siofu = require("socketio-file-upload");
+var SocketIOFileUpload = require('socketio-file-upload');
 
-var app = express().use(siofu.router);
+var app = express().use(SocketIOFileUpload.router);
 
 var socket_io = require('socket.io');
 var http = require('http');
@@ -20,9 +20,21 @@ var socket = io.of('/');
 io.on('connection', function (socket) {
     usercount++;
     console.log('Client connected - Users connected', usercount);
-     var uploader = new siofu();
-    uploader.dir = "/path/to/save/uploads";
+     
+    var uploader = new SocketIOFileUpload();
+    uploader.dir = "/srv/uploads";
     uploader.listen(socket);
+
+    // Do something when a file is saved:
+    uploader.on("saved", function(event){
+        console.log(event.file);
+    });
+
+    // Error handler:
+    uploader.on("error", function(event){
+        console.log("Error from uploader", event);
+    });
+
 
 socket.on('message', function (message) {
     console.log('Received message:', message);
