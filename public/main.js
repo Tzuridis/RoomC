@@ -5,10 +5,7 @@ $(document).ready(function () {
     var username = prompt('Please enter a username');
 
     var addMessage = function (message) {
-        var d = new Date(); 
-d.getHours(); 
-d.getMinutes();
-d.getSeconds();
+        var d = new Date().toTimeString().split(" ")[4];
         if (typeof message === 'object') {
             $('#messages').append('<div>' + "(" + d + ") " + message.username + ":" + " " + message.message + " " + '</div>');
         } else {
