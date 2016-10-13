@@ -5,10 +5,14 @@ $(document).ready(function () {
     var username = prompt('Please enter a username');
 
     var addMessage = function (message) {
+        var d = new Date(); 
+d.getHours(); 
+d.getMinutes();
+d.getSeconds();
         if (typeof message === 'object') {
-            $('#messages').append('<div>' + "(" + new Date().toLocaleString() + ") " + message.username + ":" + " " + message.message + " " + '</div>');
+            $('#messages').append('<div>' + "(" + d + ") " + message.username + ":" + " " + message.message + " " + '</div>');
         } else {
-            $('#messages').append('<div>' + "(" + new Date().toLocaleString() + ") " + username + ":" + " " + message + " " + '</div>');
+            $('#messages').append('<div>' + "(" + d + ") " + username + ":" + " " + message + " " + '</div>');
         }
 
     };
